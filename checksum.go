@@ -68,7 +68,7 @@ func (c Checksum) checkBlob(ctx context.Context, blobs blobstore.Blobs, info blo
 	hasher := pb.NewHashFromAlgorithm(header.HashAlgorithm)
 	_, _ = hasher.Write(raw[512:])
 	if !bytes.Equal(hasher.Sum(nil), header.Hash) {
-		return errors.New("Hash mismatch: " + hex.EncodeToString(info.BlobRef().Key))
+		return errors.New("hash comparison error: " + hex.EncodeToString(info.BlobRef().Key))
 	}
 	return nil
 }
