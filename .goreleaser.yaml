@@ -1,0 +1,22 @@
+project_name: storagenode-checksum
+builds:
+  - env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -X main.commit={{.Commit}} -X main.version={{.Version}} -X main.date={{.Date}}
+    ignore:
+      - goos: darwin
+        goarch: 386
+      - goos: linux
+        goarch: 386
+
+archives:
+  - replacements:
+      darwin: Darwin
+      linux: Linux
+      amd64: x86_64
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ .Tag }}-next"
+
