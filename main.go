@@ -9,14 +9,12 @@ import (
 	"log"
 	"net"
 	"os"
-	"os/signal"
 	"reflect"
 	"runtime"
 	"runtime/pprof"
 	"storj.io/common/storj"
 	dbg "storj.io/private/debug"
 	"strings"
-	"syscall"
 )
 
 func main() {
@@ -87,21 +85,6 @@ func main() {
 		}()
 		defer dbgServer.Close()
 	}
-
-	usr1 := make(chan os.Signal, 1)
-	defer close(usr1)
-	signal.Notify(usr1, syscall.SIGUSR1)
-	go func() {
-		for {
-			select {
-			case _, ok := <-usr1:
-				if !ok {
-					return
-				}
-				fmt.Println(string(readStack()))
-			}
-		}
-	}()
 
 	var cli Checksum
 
